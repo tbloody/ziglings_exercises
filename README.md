@@ -1,3 +1,7 @@
+# NB
+this is my personal clone of the ziglings, I use this to track my progress across different devices.
+For the actual project see: [ziglings on codeberg](https://codeberg.org/ziglings/exercises)
+
 # Ziglings
 
 Welcome to Ziglings! This project contains a series of tiny
@@ -87,7 +91,8 @@ that if you update one, you may need to also update the other.
 
 ### Version Changes
 
-Version-0.15.0-dev.1092
+Version-0.15.0-dev.1380
+* *2025-08-08* zig 0.15.0-dev.1380 - changes in build system, see [#24588](https://github.com/ziglang/zig/pull/24588)
 * *2025-07-22* zig 0.15.0-dev.1092 - various changes due to new I/O API, see [#24488](https://github.com/ziglang/zig/pull/24488)
 * *2024-09-16* zig 0.14.0-dev.1573 - introduction of labeled switch, see [#21257](https://github.com/ziglang/zig/pull/21257)
 * *2024-09-02* zig 0.14.0-dev.1409 - several changes in std.builtin, see [#21225](https://github.com/ziglang/zig/pull/21225)
@@ -258,6 +263,3 @@ tons of room for improvement:
 
 Please see [CONTRIBUTING](https://codeberg.org/ziglings/exercises/src/branch/main/CONTRIBUTING.md)
 in this repo for the full details.
-# ziglings_exercises
-# ziglings_exercises
-# ziglings_exercises
