@@ -66,7 +66,7 @@ const print = @import("std").debug.print;
 
 pub fn main() void {
     var letter: u8 = 'A';
-    //SVT: broken to revisit on reset
+    //TODO: broken to revisit on reset
     //const my_letter: ?*[1]u8 = &letter;
 
     //               ^^^^^^^

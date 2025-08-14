@@ -15,7 +15,7 @@ const print = std.debug.print;
 //     1) Getting Started
 //     2) Version Changes
 comptime {
-    const required_zig = "0.15.0-dev.1380";
+    const required_zig = "0.14.0-dev.1573";
     const current_zig = builtin.zig_version;
     const min_zig = std.SemanticVersion.parse(required_zig) catch unreachable;
     if (current_zig.order(min_zig) == .lt) {
@@ -126,18 +126,19 @@ pub fn build(b: *Build) !void {
     if (!validate_exercises()) std.process.exit(2);
 
     use_color_escapes = false;
-    if (std.fs.File.stderr().supportsAnsiEscapeCodes()) {
+    if (std.io.getStdErr().supportsAnsiEscapeCodes()) {
         use_color_escapes = true;
     } else if (builtin.os.tag == .windows) {
         const w32 = struct {
+            const WINAPI = std.os.windows.WINAPI;
             const DWORD = std.os.windows.DWORD;
             const ENABLE_VIRTUAL_TERMINAL_PROCESSING = 0x0004;
             const STD_ERROR_HANDLE: DWORD = @bitCast(@as(i32, -12));
-            const GetStdHandle = std.os.windows.kernel32.GetStdHandle;
-            const GetConsoleMode = std.os.windows.kernel32.GetConsoleMode;
-            const SetConsoleMode = std.os.windows.kernel32.SetConsoleMode;
+            extern "kernel32" fn GetStdHandle(id: DWORD) callconv(WINAPI) ?*anyopaque;
+            extern "kernel32" fn GetConsoleMode(console: ?*anyopaque, out_mode: *DWORD) callconv(WINAPI) u32;
+            extern "kernel32" fn SetConsoleMode(console: ?*anyopaque, mode: DWORD) callconv(WINAPI) u32;
         };
-        const handle = w32.GetStdHandle(w32.STD_ERROR_HANDLE).?;
+        const handle = w32.GetStdHandle(w32.STD_ERROR_HANDLE);
         var mode: w32.DWORD = 0;
         if (w32.GetConsoleMode(handle, &mode) != 0) {
             mode |= w32.ENABLE_VIRTUAL_TERMINAL_PROCESSING;
@@ -199,7 +200,7 @@ pub fn build(b: *Build) !void {
 
     if (rand) |_| {
         // Random build mode: verifies one random exercise.
-        // like for 'exno' but chooses a random exercise number.
+        // like for 'exno' but chooses a random exersise number.
         print("work in progress: check a random exercise\n", .{});
 
         var prng = std.Random.DefaultPrng.init(blk: {
@@ -519,7 +520,7 @@ const ZiglingStep = struct {
         // NOTE: After many changes in zig build system, we need to create the cache path manually.
         // See https://github.com/ziglang/zig/pull/21115
         // Maybe there is a better way (in the future).
-        const exe_dir = try self.step.evalZigProcess(zig_args.items, prog_node, false, null, b.allocator);
+        const exe_dir = try self.step.evalZigProcess(zig_args.items, prog_node, false);
         const exe_name = switch (self.exercise.kind) {
             .exe => self.exercise.name(),
             .@"test" => "test",
@@ -1063,7 +1064,7 @@ const exercises = [_]Exercise{
     .{
         .main_file = "082_anonymous_structs3.zig",
         .output =
-        \\"0"(bool):true "1"(bool):false "2"(i32):42 "3"(f32):3.141592
+        \\"0"(bool):true "1"(bool):false "2"(i32):42 "3"(f32):3.141592e0
         ,
         .hint = "This one is a challenge! But you have everything you need.",
     },

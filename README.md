@@ -1,7 +1,3 @@
-# NB
-this is my personal clone of the ziglings, I use this to track my progress across different devices.
-For the actual project see: [ziglings on codeberg](https://codeberg.org/ziglings/exercises)
-
 # Ziglings
 
 Welcome to Ziglings! This project contains a series of tiny
@@ -49,7 +45,7 @@ Verify the installation and build number of `zig` like so:
 
 ```
 $ zig version
-0.15.0-dev.xxxx+xxxxxxxxx
+0.14.0-dev.xxxx+xxxxxxxxx
 ```
 
 Clone this repository with Git:
@@ -77,8 +73,8 @@ the appropriate tag.
 The Zig language is under very active development. In order to be
 current, Ziglings tracks **development** builds of the Zig
 compiler rather than versioned **release** builds. The last
-stable release was `0.14.1`, but Ziglings needs a dev build with
-pre-release version "0.15.0" and a build number at least as high
+stable release was `0.13.0`, but Ziglings needs a dev build with
+pre-release version "0.14.0" and a build number at least as high
 as that shown in the example version check above.
 
 It is likely that you'll download a build which is _greater_ than
@@ -91,9 +87,7 @@ that if you update one, you may need to also update the other.
 
 ### Version Changes
 
-Version-0.15.0-dev.1380
-* *2025-08-08* zig 0.15.0-dev.1380 - changes in build system, see [#24588](https://github.com/ziglang/zig/pull/24588)
-* *2025-07-22* zig 0.15.0-dev.1092 - various changes due to new I/O API, see [#24488](https://github.com/ziglang/zig/pull/24488)
+Version-0.14.0-dev.1573
 * *2024-09-16* zig 0.14.0-dev.1573 - introduction of labeled switch, see [#21257](https://github.com/ziglang/zig/pull/21257)
 * *2024-09-02* zig 0.14.0-dev.1409 - several changes in std.builtin, see [#21225](https://github.com/ziglang/zig/pull/21225)
 * *2024-08-04* zig 0.14.0-dev.1224 - several changes in build system, see [#21115](https://github.com/ziglang/zig/pull/21115)
@@ -239,7 +233,6 @@ Zig Core Language
 * [X] Interfaces
 * [X] Bit manipulation
 * [X] Working with C
-* [ ] Opaque types (anyopaque)
 * [X] Threading
 * [x] Labeled switch
 * [x] Vector operations (SIMD)

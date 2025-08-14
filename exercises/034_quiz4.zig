@@ -10,10 +10,11 @@ const std = @import("std");
 const NumError = error{IllegalNumber};
 
 pub fn main() void {
-    var stdout = std.fs.File.stdout().writer(&.{});
+    const stdout = std.io.getStdOut().writer();
 
     const my_num: u32 = getNumber() catch 42;
-    stdout.interface.print("my_num={}\n", .{my_num}) catch {
+
+    stdout.print("my_num={}\n", .{my_num}) catch {
         std.debug.print("my_num={}\n", .{my_num});
     };
 }
