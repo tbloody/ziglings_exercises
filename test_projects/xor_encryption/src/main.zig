@@ -20,42 +20,37 @@ pub fn main() !void {
     const b_key_priv = "cba";
 
     var intermediate = xor_str(a_input, a_key_priv);
-    try stdout.print("{s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, a_key_pub) catch intermediate;
-    try stdout.print("{s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, b_key_pub) catch intermediate;
-    try stdout.print("sent over wire from a to b: {s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, b_key_priv) catch intermediate;
-    try stdout.print("{s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, b_key_priv) catch intermediate;
-    try stdout.print("sent over wire from b to a: {s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, a_key_priv) catch intermediate;
-    try stdout.print("{s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, a_key_pub) catch intermediate;
-    try stdout.print("sent over wire from a to b: {s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, b_key_priv) catch intermediate;
-    try stdout.print("{s}\n", .{intermediate});
-    intermediate = xor_str(intermediate, b_key_pub) catch intermediate;
-    try stdout.print("should be original at b: {s}\n", .{intermediate});
+    try stdout.print("{any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, a_key_pub);
+    try stdout.print("{any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, b_key_pub);
+    try stdout.print("sent over wire from a to b: {any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, b_key_priv);
+    try stdout.print("{any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, b_key_priv);
+    try stdout.print("sent over wire from b to a: {any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, a_key_priv);
+    try stdout.print("{any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, a_key_pub);
+    try stdout.print("sent over wire from a to b: {any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, b_key_priv);
+    try stdout.print("{any}\n", .{intermediate});
+    intermediate = xor_str(intermediate, b_key_pub);
+    try stdout.print("should be original at b: {any}\n", .{intermediate});
 
     try bw.flush(); // Don't forget to flush!
 }
 
-const XorError = error{TooBig};
-
-pub fn xor_str(a: []const u8, b: []const u8) ![64]u8 {
-    const res = [64]u8;
-    if (a.len > 64) {
-        return XorError.TooBig;
-    }
-    for (a, 0..) |av, i| {
+pub fn xor_str(a: []const u8, b: []const u8) []u8 {
+    var res: [128]u8 = .{0} ** 128;
+    for (0..a.len) |i| {
         var b_index = i;
-        while (b_index > b.len) {
+        while (b_index >= b.len) {
             b_index = b_index - b.len;
         }
-        res[i] = av ^ b[b_index];
+        res[i] = a[i] ^ b[b_index];
     }
-    return res;
+    return res[0..a.len];
 }
 
 test "simple test" {
